@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8"/>
+	<title>Construction Page HTML5</title>
+</head>
+<body>
+	<div>
+        <h3>Cocher le(s) produit(s) à supprimer</h3>
+        <form action="/api/v1/factures/delete" method="post">
+            {{placeholder}}
+            <br><input type="submit" value="Supprimer la selection">
+        </form>
+    </div>
+</body>
+</html>

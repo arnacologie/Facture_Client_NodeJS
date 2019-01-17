@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8"/>
+	<title>Construction Page HTML5</title>
+</head>
+<body>
+	<div>
+        <form action="/api/v1/factures/createFacture" method="post">
+            <label for="clientName">Quel est le nom du client ? </label>
+            <input id="clientName" type="text" name="clientName"><br>
+            <label for="prestation">Quelle est la prestation fournie ? </label>
+            <input id="prestation" type="text" name="prestation"><br>
+            <label for="numberHoraire">Combien d'heures sont facturées ? </label>
+            <input id="numberHoraire" type="text" name="numberHoraire"><br>
+            <label for="priceHoraire">Quel est le coup horaire ? </label>
+            <input id="priceHoraire" type="text" name="priceHoraire"><br>
+            <label for="TVAAsk">Voulez vous appliquer la TVA ? </label>
+            <input id="TVAAsk" type="checkbox" name="TVAAsk"><br>
+			<label for="TVARate">Si oui, Taux TVA ? </label>
+            <input id="TVARate" type="text" name="TVARate"><br>
+            <input type="submit" value="Créer la facture"><br>
+        </form>
+    </div>
+</body>
+</html>
