@@ -1,24 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let FactureSchema = new Schema({
-    reference: Number,
-    name: String,
-    description: String,
-    priceHT: Number,
-    TVARate: Number
-},
-{
-    collection:'factures'
+let InvoiceSchema = new Schema({
+    invoiceNumber: Number,
+    totalTTC: Number,
 });
 
-module.exports = mongoose.model('Facture', FactureSchema);
+module.exports = mongoose.model('Invoice', InvoiceSchema);
 
-// FactureSchema.method({
+// InvoiceSchema.method({
 //     calculateTaxe: function () {
         
 //         let calculatedTaxe = this.priceHT + (this.priceHT * this.TVARate / 100);
-//         let resultText = `The facture '${this.name}' is worth ${calculatedTaxe}€ TTC ! <br><br><br>PrixHT(${this.priceHT}€) + ( PrixHT(${this.priceHT}€) * (TVARate(${this.TVARate})/100) ) = ${calculatedTaxe}€`;
+//         let resultText = `The invoice '${this.name}' is worth ${calculatedTaxe}€ TTC ! <br><br><br>PrixHT(${this.priceHT}€) + ( PrixHT(${this.priceHT}€) * (TVARate(${this.TVARate})/100) ) = ${calculatedTaxe}€`;
 //         priceTTCtoLog(resultText);
 //         return resultText;
 //     }

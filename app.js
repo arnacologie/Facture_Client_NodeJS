@@ -1,15 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const factureController = require('./controllers/facture.controller.js');
-const clientController = require('./controllers/client.controller.js');
-const fs = require('fs');
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
+require('./routes/client.route')(app);
+require('./routes/invoice.route')(app);
 
 const port = 3000;
-const apiPath = '/api/v1';
 
 app.listen(port, () => {
     console.log(`server on on port ${port}`)
@@ -33,23 +31,17 @@ app.get(`/:name`, (req, res) => {
     res.send(`Bonjour ${req.params.name}, Bienvenue sur votre API de gestion de catalogue produit.`)
 });
 
-//CRUD Facture
-//create
-app.get(`${apiPath}/createFacture`, (req, res)=>{
-    let createFile = fs.readFileSync('./html/createFacture.html', 'UTF-8');
-    res.send(createFile);
-});
-app.post(`${apiPath}/createFacture`, factureController.createFacture);
-app.post(`${apiPath}/createClient`, clientController.createClient);
+
+
 // //read
-// app.get(`${apiPath}/read/:id`, factureController.findFacture);
-// app.get(`${apiPath}/read`, factureController.getFactures);
+// app.get(`${apiPath}/read/:id`, invoiceController.findInvoice);
+// app.get(`${apiPath}/read`, invoiceController.getInvoices);
 // //update
-// app.put(`${apiPath}/update/:id`, factureController.updateFacture);
-// app.put(`${apiPath}/update`, factureController.updateFactures);
+// app.put(`${apiPath}/update/:id`, invoiceController.updateInvoice);
+// app.put(`${apiPath}/update`, invoiceController.updateInvoices);
 // //delete
-// app.get(`${apiPath}/delete/:id`, factureController.deleteFacture);
-// app.get(`${apiPath}/delete`, factureController.deleteFacturesGet);
-// app.post(`${apiPath}/delete`,  factureController.deleteFacturesPost);
+// app.get(`${apiPath}/delete/:id`, invoiceController.deleteInvoice);
+// app.get(`${apiPath}/delete`, invoiceController.deleteInvoicesGet);
+// app.post(`${apiPath}/delete`,  invoiceController.deleteInvoicesPost);
 // //calculatetaxe
-// app.get(`${apiPath}/calculate-taxe/:id`,  factureController.calculateTaxe);
+// app.get(`${apiPath}/calculate-taxe/:id`,  invoiceController.calculateTaxe);
