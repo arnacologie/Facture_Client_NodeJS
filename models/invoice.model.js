@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let InvoiceSchema = new Schema({
-    invoiceNumber: Number,
+    invoiceNumber: String,
     totalTTC: Number,
 });
 

@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-
 let ClientSchema = new Schema({
     clientName : String,
     address : String,

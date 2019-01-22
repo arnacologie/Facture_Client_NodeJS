@@ -27,7 +27,7 @@ exports.createClient = function(req, res){
             console.log('Client created :');
         }
         res.send(`Client created ! \n\n${client}`);
-    })
+    });
 
 }
 
