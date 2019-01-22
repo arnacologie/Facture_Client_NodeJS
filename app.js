@@ -32,7 +32,6 @@ app.get(`/:name`, (req, res) => {
 });
 
 
-
 // //read
 // app.get(`${apiPath}/read/:id`, invoiceController.findInvoice);
 // app.get(`${apiPath}/read`, invoiceController.getInvoices);

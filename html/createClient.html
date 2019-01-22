@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8"/>
+	<title>Construction Page HTML5</title>
+</head>
+<body>
+	<div>
+        <form action="/api/v1/createClient" method="post">
+            <label for="clientName">Entrez un nom: </label>
+            <input id="clientName" type="text" name="clientName"><br>
+            <label for="address">Entrez une adresse: </label>
+            <input id="address" type="text" name="address"><br>
+            <label for="cp">Entrez un code postal: </label>
+            <input id="cp" type="text" name="cp"><br>
+            <label for="town">Entrez une ville: </label>
+            <input id="town" type="text" name="town"><br>
+            <label for="referent">Entrez un(e) referent(e) (Prenom.Nom_Emploi): </label>
+            <input id="referent" type="text" name="referent"><br>
+            <label for="phone">Entrez un numéro de teléphone: </label>
+            <input id="phone" type="text" name="phone"><br>
+            <label for="mail">Entrez un mail: </label>
+            <input id="mail" type="text" name="mail"><br>
+            <label for="prospect">Ce client a-t-il une prospection ? : </label>
+            <input id="prospect" type="checkbox" name="prospect" value="true"><br>
+            <input type="submit" value="Créer le client en BDD"><br>
+        </form>
+    </div>
+</body>
+</html>
