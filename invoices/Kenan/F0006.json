@@ -1,0 +1,14 @@
+{
+  "invoiceNumber": "F0006",
+  "clientName": "Kenan",
+  "clientAddress": "65 allée Nicolas Carnot",
+  "clientCP": 93340,
+  "clientTown": "Le Raincy",
+  "creationDate": "Mon Feb 18 2019 15:23:55 GMT+0100 (CET)",
+  "prestation": "fesdfe",
+  "numberHoraire": "20",
+  "priceHoraire": "25",
+  "TVARate": "20",
+  "totalHT": "500",
+  "totalTTC": "600"
+}

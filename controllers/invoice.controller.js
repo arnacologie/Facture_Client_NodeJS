@@ -13,13 +13,13 @@ exports.createInvoice = function(req, res){
 
 
     //find the last invoice number and create the current one
-    Invoice.findOne().sort({createdAt: 'desc'}).lean().exec(function(err, lastInvoice) {
+    Invoice.findOne().sort({ field: 'asc', _id: -1 }).limit(1).exec(function(err, lastInvoice) {
         if(err){
             console.log(err);
         }
         if(lastInvoice != null){
-            console.log('1 '+lastInvoice.invoiceNumber.substring(1));
-            currentInvoiceNumber = parseInt(lastInvoice.invoiceNumber.substring(1))+1;
+            console.log('1 '+lastInvoice.invoiceNumber.toString().substring(1));
+            currentInvoiceNumber = parseInt(lastInvoice.invoiceNumber.toString().substring(1))+1;
         }
         else
             currentInvoiceNumber = 1;
@@ -54,7 +54,8 @@ exports.createInvoice = function(req, res){
             let logLine = `\n${new Date()} | ${currentClientName}`;
             fs.appendFileSync('invoices/factures.log', logLine, (err) => {
                 console.log('factures.log edited');
-            })
+            });
+            res.send(`Incoice n${currentInvoiceNumber} created !`);
         });
     });
 
