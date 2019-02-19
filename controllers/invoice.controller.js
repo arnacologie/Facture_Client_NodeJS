@@ -48,25 +48,30 @@ exports.createInvoice = function(req, res){
                     console.log('repo created');
                 })
             }
-            createJSONBDDInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown);
+            createJSONBDDInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown, req.body.prestation,
+                req.body.numberHoraire, req.body.priceHoraire, req.body.TVARate, res);
             
             //LOG
             let logLine = `\n${new Date()} | ${currentClientName}`;
             fs.appendFileSync('invoices/factures.log', logLine, (err) => {
                 console.log('factures.log edited');
-            });
-            res.send(`Incoice n${currentInvoiceNumber} created !`);
+            })
         });
     });
+}
 
-    function createJSONBDDInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown){
-        //create JSON Facture
-        createJSONInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown)
-        //create BDD Invoice
-        createBDDInvoice(currentInvoiceNumber);
+    exports.logAllIncome = function(req, res){
+        console.log(fs.readFileSync('invoices/total.log', 'UTF-8'));
     }
 
-    function createJSONInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown){
+    function createJSONBDDInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown, prestation, numberHoraire, priceHoraire, TVARate, res){
+        //create JSON Facture
+        createJSONInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown, prestation, numberHoraire, priceHoraire, TVARate)
+        //create BDD Invoice
+        createBDDInvoice(currentInvoiceNumber, numberHoraire, priceHoraire, TVARate, res);
+    }
+
+    function createJSONInvoice(currentInvoiceNumber, currentClientName, currentAddress, currentCP, currentTown, prestationReq, numberHoraireReq, priceHoraireReq, TVARateReq){
         let invoice = {  
             invoiceNumber: createInvoiceName(currentInvoiceNumber),
             clientName: currentClientName, 
@@ -74,21 +79,29 @@ exports.createInvoice = function(req, res){
             clientCP: currentCP,
             clientTown: currentTown,
             creationDate: `${new Date()}`,
-            prestation: req.body.prestation,
-            numberHoraire: req.body.numberHoraire,
-            priceHoraire: req.body.priceHoraire,
-            TVARate: req.body.TVARate,
-            totalHT: `${parseFloat(req.body.numberHoraire)*parseFloat(req.body.priceHoraire)}`,
-            totalTTC: `${(parseFloat(req.body.numberHoraire)*parseFloat(req.body.priceHoraire) + parseFloat(req.body.numberHoraire)*parseFloat(req.body.priceHoraire)*(parseFloat(req.body.TVARate)/100.0))}`
+            prestation: prestationReq,
+            numberHoraire: numberHoraireReq,
+            priceHoraire: priceHoraireReq,
+            TVARate: TVARateReq,
+            totalHT: `${parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq)}`,
+            totalTTC: `${(parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq) + parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq)*(parseFloat(TVARateReq)/100.0))}`
         };
 
         let data = JSON.stringify(invoice, null, 2);
+
+        let currentTotal = fs.readFileSync('invoices/total.log', 'UTF-8');
+        let newTotal = currentTotal + `${(parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq) + parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq)*(parseFloat(TVARateReq)/100.0))}`
+        fs.writeFileSync('invoices/total.log'), newTotal, (err) => {  
+            if (err) console.log(err);
+            console.log('Data written to LOG file');
+        };
 
         fs.writeFileSync(`invoices/${currentClientName}/${createInvoiceName(currentInvoiceNumber)}.json`, data, (err) => {  
             if (err) console.log(err);
             console.log('Data written to JSON file');
             //res.send(data);
         });
+
     }
 
     function createInvoiceName(currentInvoiceNumber){
@@ -108,11 +121,11 @@ exports.createInvoice = function(req, res){
         }
     }
 
-    function createBDDInvoice(){
+    function createBDDInvoice(currentInvoiceNumber, numberHoraireReq, priceHoraireReq, TVARateReq, res){
         let invoice = new Invoice(
             {
                 invoiceNumber : createInvoiceName(currentInvoiceNumber),
-                totalTTC : (parseFloat(req.body.numberHoraire)*parseFloat(req.body.priceHoraire) + parseFloat(req.body.numberHoraire)*parseFloat(req.body.priceHoraire)*(parseFloat(req.body.TVARate)/100.0))
+                totalTTC : (parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq) + parseFloat(numberHoraireReq)*parseFloat(priceHoraireReq)*(parseFloat(TVARateReq)/100.0))
             }
         );
         invoice.save ((err) => {
@@ -121,8 +134,9 @@ exports.createInvoice = function(req, res){
             }else{
                 console.log('Invoice BDD created :');
             }
-            res.send(`Invoice BDD created ! \n\n${invoice}`);
+            
         });
+        res.send(`Invoice n${currentInvoiceNumber} created !\n\n${invoice}`);
     }
 
     //Adventure.findOne({ type: 'iphone' }, function (err, adventure) {});
@@ -146,7 +160,7 @@ exports.createInvoice = function(req, res){
     //     }
     //     res.send(invoice);
     // })
-}
+
 
 
 

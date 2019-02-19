@@ -9,4 +9,6 @@ module.exports = (app) => {
         res.send(createFile);
     });
     app.post(`${apiPath}/createInvoice`, invoiceController.createInvoice);
+
+    app.get(`${apiPath}/total`, invoiceController.logAllIncome);
 }

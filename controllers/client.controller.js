@@ -121,6 +121,17 @@ exports.calculateTaxe = function (req, res){
     });
 }
 
+exports.calculateAllTaxe = function (req, res){
+    let id = req.params.id;
+    Client.findById(id, function(err, Clients){
+        if(err){
+            console.log(err);
+        }
+        this.priceHT + (this.priceHT * this.TVARate / 100)
+        res.send(Clients.calculateTaxe());
+    });
+}
+
 //----------------------------FUNCTIONS-----------------------------------------/
 
 

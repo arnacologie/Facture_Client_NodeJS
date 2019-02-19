@@ -22,5 +22,5 @@ module.exports = (app) => {
     app.post(`${apiPath}/delete`,  clientController.deleteClientsPost);
     // //calculatetaxe
     app.get(`${apiPath}/calculate-taxe/:id`,  clientController.calculateTaxe);
-
+    app.get(`${apiPath}/calculate-taxe`,  clientController.calculateAllTaxe);
     }

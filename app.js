@@ -6,6 +6,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
 require('./routes/client.route')(app);
 require('./routes/invoice.route')(app);
+require('./routes/client.note')(app);
 
 const port = 3000;
 
